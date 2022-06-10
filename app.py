@@ -24,22 +24,26 @@ def new_game():
     <class 'dict'>
     """
 
-
     # get a unique string id for the board we're creating
     game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
 
-    breakpoint()
-
-
     game_info = {"gameId": game_id, "board": game.board}
     return jsonify(game_info)
+
 
 @app.post("/api/score-word")
 def score_word():
     """TODO"""
-    score_data = request.form()
-    jsonify(score_data)
+    breakpoint()
+    game_id = request.json['game_id']
+    word = request.json['word']
+    current_game = games[game_id]
 
-
+    if current_game.check_word_on_board(word) and current_game.is_word_in_word_list(word):
+        return jsonify({'result': "ok"})
+    if current_game.check_word_on_board(word):
+        return jsonify({'result': "not_on_Board"})
+    elif current_game.is_word_in_word_list(word):
+        return jsonify({'result': "not-word"})
