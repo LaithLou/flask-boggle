@@ -41,3 +41,5 @@ class BoggleAppTestCase(TestCase):
             self.assertIs(type(json_response["gameId"]), str)
             self.assertIs(type(json_response["board"][0]), list)
             self.assertIs(type(json_response["board"]), list)
+            self.assertIs(type(json_response["board"]), list)
+

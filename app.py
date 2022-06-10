@@ -35,3 +35,11 @@ def new_game():
 
     game_info = {"gameId": game_id, "board": game.board}
     return jsonify(game_info)
+
+@app.post("/api/score-word")
+def score_word():
+    """TODO"""
+    score_data = request.form()
+    jsonify(score_data)
+
+
