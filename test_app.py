@@ -1,3 +1,4 @@
+from http.client import responses
 from unittest import TestCase
 
 from app import app, games
@@ -23,12 +24,15 @@ class BoggleAppTestCase(TestCase):
 
         with self.client as client:
             response = client.get('/')
-            ...
+
             # test that you're getting a template
+            html = response.get_data(as_text=True)
+            self.assertIn('<button class="word-input-btn">Go</button>', html)
+            self.assertIn("boggle home page", html)
 
     def test_api_new_game(self):
         """Test starting a new game."""
 
         with self.client as client:
-            ...
+
             # write a test for this route
