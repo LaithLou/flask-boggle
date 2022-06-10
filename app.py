@@ -19,11 +19,19 @@ def homepage():
 
 @app.post("/api/new-game")
 def new_game():
-    """Start a new game and return JSON: {game_id, board}."""
+    """Start a new game and return JSON: {game_id, board}.
+    >>> type(games)
+    <class 'dict'>
+    """
+
 
     # get a unique string id for the board we're creating
     game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
 
-    return {"gameId": "need-real-id", "board": "need-real-board"}
+    breakpoint()
+
+
+    game_info = {"gameId": game_id, "board": game.board}
+    return jsonify(game_info)
