@@ -36,14 +36,14 @@ def new_game():
 @app.post("/api/score-word")
 def score_word():
     """TODO"""
-    breakpoint()
+
     game_id = request.json['game_id']
     word = request.json['word']
     current_game = games[game_id]
 
     if current_game.check_word_on_board(word) and current_game.is_word_in_word_list(word):
         return jsonify({'result': "ok"})
-    if current_game.check_word_on_board(word):
-        return jsonify({'result': "not_on_Board"})
-    elif current_game.is_word_in_word_list(word):
+    elif not current_game.is_word_in_word_list(word):
         return jsonify({'result': "not-word"})
+    elif not current_game.check_word_on_board(word):
+        return jsonify({'result': "not_on_board"})

@@ -43,3 +43,32 @@ class BoggleAppTestCase(TestCase):
             self.assertIs(type(json_response["board"]), list)
             self.assertIs(type(json_response["board"]), list)
 
+    def test_api_score_word(self):
+
+        with self.client as client:
+            game_id = client.post('/api/new-game').get_json()['gameId']
+           # board = client.post('/api/new-game').get_json()['board']
+            game = games[game_id]
+
+            for lst in game.board:
+                for i in range(len(lst)):
+                    lst[i] = 'X'
+
+            game.board[0][0] = "C"
+            game.board[0][1] = "A"
+            game.board[0][2] = "T"
+
+            response = client.post(
+                "/api/score-word", json={'game_id': game_id, 'word': 'STT'})
+            json_response = response.get_json()
+            self.assertEqual({"result": 'not-word'}, json_response)
+
+            response = client.post(
+                "/api/score-word", json={'game_id': game_id, 'word': 'CAT'})
+            json_response = response.get_json()
+            self.assertEqual({"result": "ok"}, json_response)
+
+            response = client.post(
+                "/api/score-word", json={'game_id': game_id, 'word': 'DOG'})
+            json_response = response.get_json()
+            self.assertEqual({"result": "not_on_board"}, json_response)
